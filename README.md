@@ -2,10 +2,10 @@
 
 It takes a csv, from `input/` which should be called `chrome_extensions_installed.csv`, this must conform to the format of `serial number,"extensionid1, extensionid2, extensionid3, etc, etc"` in order for it to work as expected.
 
-## Confirguration
+## Configuration
 
 There is only 1 thing that needs configuration, `config/extensionsMapper.json`. This should contain an array that looks like the below of any know extensions, the only thing that has to match is the extension ID, the name and publisher then get pulled through to the results file _if_ it can find a matching ID in the CSV.
-```json
+```javascript
 [
     {
         "id":"exampleChromeExtensionID",
@@ -19,7 +19,7 @@ There is only 1 thing that needs configuration, `config/extensionsMapper.json`. 
 At this point, you should be able to run it and there will be 4 files created in `result/`:
 
 `extensionsKnown.json` - This will contain any extensions that are found in the `config/extensionsMapper.json` file.
-```json
+```javascript
 [
     {
         "id": "ggjhpefgjjfobnfoldnjipclpcfbgbhl", 
@@ -30,7 +30,7 @@ At this point, you should be able to run it and there will be 4 files created in
 ]
 ```
 `extensionsUnknown.json` - This will contain any extensions that are not found in the `config/extensionsMapper.json` file.
-```json
+```javascript
 [
     {
         "id": "exampleID", 
