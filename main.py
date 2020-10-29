@@ -43,13 +43,13 @@ with open("result/extensionsListWithDuplicates.json") as file:
 with open("config/extensionsMapper.json") as file:
     extensionsMapper = json.load(file)
 
-extensionsDir = []
+extensionsKnown = []
 extensionsUnknown = []
 
 for item in extensionsList:
 
-    # check if ID is in extensionsDir
-    dirResult = jsonActions.checkDir(extensionsDir, item)
+    # check if ID is in extensionsKnown
+    dirResult = jsonActions.checkDir(extensionsKnown, item)
     unkResult = jsonActions.checkUnk(extensionsUnknown, item)
 
     # if not in there, check if ID is in extensions mapper
@@ -57,14 +57,14 @@ for item in extensionsList:
     if(dirResult is None and unkResult is None):
 
         if(mapperResult is not None):
-            # if in extensions mapper, add to extensionsDir
+            # if in extensions mapper, add to extensionsKnown
             jsonData = {
                 "id": item,
                 "extensionName": mapperResult["extensionName"],
                 "publisher": mapperResult["publisher"],
                 "count": 1
             }
-            extensionsDir = jsonActions.add(jsonData, extensionsDir)
+            extensionsKnown = jsonActions.add(jsonData, extensionsKnown)
             print("Adding extension to Known extensions")
         else:
             # if not in extensions mapper, add to unknown json array
@@ -79,7 +79,7 @@ for item in extensionsList:
         if(dirResult is not None):
             # change stuff in the directory json
             print("Extension already exists, adding 1 to count")
-            for item2 in extensionsDir:
+            for item2 in extensionsKnown:
                 if(item2["id"] == item):
                     item2["count"] += 1
         elif(unkResult is not None):
@@ -93,6 +93,6 @@ with open('result/extensionsUnknown.json', 'w') as outfile:
     json.dump(extensionsUnknown, outfile)
 
 with open('result/extensionsKnown.json', 'w') as outfile:
-    json.dump(extensionsDir, outfile)
+    json.dump(extensionsKnown, outfile)
 
 print("and with that, im done")
