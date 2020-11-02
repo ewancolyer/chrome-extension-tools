@@ -4,12 +4,12 @@ It takes a csv, from `input/` which should be called `chrome_extensions_installe
 
 ## Configuration
 
-There is only 1 thing that needs configuration, `config/extensionsMapper.json`. This should contain an array that looks like the below of any know extensions, the only thing that has to match is the extension ID, the name and publisher then get pulled through to the results file _if_ it can find a matching ID in the CSV.
+There is only 1 thing that needs configuration, `config/extensions_mapper.json`. This should contain an array that looks like the below of any know extensions, the only thing that has to match is the extension ID, the name and publisher then get pulled through to the results file _if_ it can find a matching ID in the CSV.
 ```javascript
 [
     {
         "id":"exampleChromeExtensionID",
-        "extensionName":"extensionName",
+        "extension_name":"extension_name",
         "publisher":"nameOfPublisher"
     },
 ]
@@ -18,18 +18,18 @@ There is only 1 thing that needs configuration, `config/extensionsMapper.json`. 
 
 At this point, you should be able to run it and there will be 4 files created in `result/`:
 
-`extensionsKnown.json` - This will contain any extensions that are found in the `config/extensionsMapper.json` file.
+`extensions_known.json` - This will contain any extensions that are found in the `config/extensions_mapper.json` file.
 ```javascript
 [
     {
         "id": "ggjhpefgjjfobnfoldnjipclpcfbgbhl", 
-        "extensionName": "My Apps Secure Sign-in Extension", 
+        "extension_name": "My Apps Secure Sign-in Extension", 
         "publisher": "Microsoft", 
         "count": 1
     }
 ]
 ```
-`extensionsUnknown.json` - This will contain any extensions that are not found in the `config/extensionsMapper.json` file.
+`extensions_unknown.json` - This will contain any extensions that are not found in the `config/extensions_mapper.json` file.
 ```javascript
 [
     {
@@ -38,7 +38,7 @@ At this point, you should be able to run it and there will be 4 files created in
     }
 ]
 ```
-`extensionsListWithDuplicates.json` - This is the raw data that the script loads, it writes it to file before processing the data encase you want access to the raw data
+`extensions_list_with_duplicates.json` - This is the raw data that the script loads, it writes it to file before processing the data encase you want access to the raw data
 
 
 

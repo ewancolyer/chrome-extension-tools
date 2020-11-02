@@ -1,44 +1,44 @@
 #!/usr/bin/env python3
 
-def checkDir(jsonArray, ID):
+def check_dir(json_array, ID):
     """
     Checks whether the id exists in the unknow file
     """
-    if(jsonArray != []):
-        for item in jsonArray:
+    if(json_array != []):
+        for item in json_array:
             if(item["id"] == ID):
                 return item
 
 
-def checkUnk(jsonArray, ID):
+def check_unk(json_array, ID):
     """
     Checks whether the id exists in the unknow file
     """
-    if(jsonArray != []):
-        for item in jsonArray:
+    if(json_array != []):
+        for item in json_array:
             if(item["id"] == ID):
 
                 return item
 
 
-def checkMapping(jsonArray, ID):
+def check_mapping(json_array, ID):
     """
-    Checks whether the id exists in the jsonMapper file
+    Checks whether the id exists in the json_mapper file
     """
-    if(jsonArray == []):
+    if(json_array == []):
 
         return
     else:
-        for item in jsonArray:
+        for item in json_array:
             if(item["id"] == ID):
                 return item
 
 
-def add(newJsonArray, oldJsonArray):
+def add(new_json_array, old_json_array):
     """
     Appends a json array to the end of a current one
     """
 
-    oldJsonArray.append(newJsonArray)
+    old_json_array.append(new_json_array)
 
-    return oldJsonArray
+    return old_json_array

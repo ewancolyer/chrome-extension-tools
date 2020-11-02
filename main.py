@@ -14,85 +14,85 @@ def csvLoader():
     loads csv and returs it
     """
 
-    csvBigList = ""
-    jsonArray = []
+    csv_big_list = ""
+    json_array = []
 
-    with open("input/chrome_extensions_installed.csv") as csvFile:
-        csvFile2 = csv.reader(csvFile, dialect="excel")
+    with open("input/chrome_extensions_installed.csv") as csv_file:
+        csv_file_2 = csv.reader(csv_file, dialect="excel")
 
-        for item in csvFile2:
+        for item in csv_file_2:
 
-            csvBigList = ",".join([csvBigList, item[1]])
+            csv_big_list = ",".join([csv_big_list, item[1]])
 
-    csvBigList = miscTools.remove_prefix(csvBigList, ",")
-    csvBigList = miscTools.remove_suffix(csvBigList, ",")
+    csv_big_list = miscTools.remove_prefix(csv_big_list, ",")
+    csv_big_list = miscTools.remove_suffix(csv_big_list, ",")
 
-    for item in csvBigList.split(','):
-        jsonArray.append(item)
+    for item in csv_big_list.split(','):
+        json_array.append(item)
 
-    with open('result/extensionsListWithDuplicates.json', 'w') as file:
-        json.dump(jsonArray, file)
+    with open('result/extensions_list_with_duplicates.json', 'w') as file:
+        json.dump(json_array, file)
 
-    return csvBigList
+    return csv_big_list
 
 
 csvLoader()
 
-with open("result/extensionsListWithDuplicates.json") as file:
-    extensionsList = json.load(file)
-with open("config/extensionsMapper.json") as file:
-    extensionsMapper = json.load(file)
+with open("result/extensions_list_with_duplicates.json") as file:
+    extensions_list = json.load(file)
+with open("config/extensions_mapper.json") as file:
+    extensions_mapper = json.load(file)
 
-extensionsKnown = []
-extensionsUnknown = []
+extensions_known = []
+extensions_unknown = []
 
-for item in extensionsList:
+for item in extensions_list:
 
-    # check if ID is in extensionsKnown
-    dirResult = jsonActions.checkDir(extensionsKnown, item)
-    unkResult = jsonActions.checkUnk(extensionsUnknown, item)
+    # check if ID is in extensions_known
+    dir_result = jsonActions.check_dir(extensions_known, item)
+    unk_result = jsonActions.check_unk(extensions_unknown, item)
 
     # if not in there, check if ID is in extensions mapper
-    mapperResult = jsonActions.checkMapping(extensionsMapper, item)
-    if(dirResult is None and unkResult is None):
+    mapper_result = jsonActions.check_mapping(extensions_mapper, item)
+    if(dir_result is None and unk_result is None):
 
-        if(mapperResult is not None):
-            # if in extensions mapper, add to extensionsKnown
-            jsonData = {
+        if(mapper_result is not None):
+            # if in extensions mapper, add to extensions_known
+            json_data = {
                 "id": item,
-                "extensionName": mapperResult["extensionName"],
-                "publisher": mapperResult["publisher"],
+                "extension_name": mapper_result["extension_name"],
+                "publisher": mapper_result["publisher"],
                 "count": 1
             }
-            extensionsKnown = jsonActions.add(jsonData, extensionsKnown)
+            extensions_known = jsonActions.add(json_data, extensions_known)
             print("Adding extension to Known extensions")
         else:
             # if not in extensions mapper, add to unknown json array
-            jsonData = {
+            json_data = {
                 "id": item,
                 "count": 1
             }
-            extensionsUnknown = jsonActions.add(jsonData, extensionsUnknown)
+            extensions_unknown = jsonActions.add(json_data, extensions_unknown)
             print("Adding extension to unknown extensions")
 
     else:
-        if(dirResult is not None):
+        if(dir_result is not None):
             # change stuff in the directory json
             print("Extension already exists, adding 1 to count")
-            for item2 in extensionsKnown:
-                if(item2["id"] == item):
-                    item2["count"] += 1
-        elif(unkResult is not None):
+            for item_2 in extensions_known:
+                if(item_2["id"] == item):
+                    item_2["count"] += 1
+        elif(unk_result is not None):
             print("Extension already exists, adding 1 to count")
             # change stuff in the unknown json
-            for item2 in extensionsUnknown:
-                if(item2["id"] == item):
-                    item2["count"] += 1
+            for item_2 in extensions_unknown:
+                if(item_2["id"] == item):
+                    item_2["count"] += 1
 
-with open('result/extensionsUnknown.json', 'w') as outfile:
-    json.dump(extensionsUnknown, outfile)
+with open('result/extensions_unknown.json', 'w') as outfile:
+    json.dump(extensions_unknown, outfile)
 
-with open('result/extensionsKnown.json', 'w') as outfile:
-    json.dump(extensionsKnown, outfile)
+with open('result/extensions_known.json', 'w') as outfile:
+    json.dump(extensions_known, outfile)
 
 print("and with that, im done")
